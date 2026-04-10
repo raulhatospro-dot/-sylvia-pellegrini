@@ -204,21 +204,19 @@ function openModal(index = null) {
 function closeModal() { $('#eventModal').hidden = true; }
 
 // ---------- Confirm Modal ----------
-// Variable globale qui stocke la fonction resolve() de la Promise en cours.
-// - showConfirm() affiche la modale et retourne une Promise
-// - Le listener sur #confirmOkBtn appelle confirmResolver(true)
-// - Le listener sur #confirmCancelBtn appelle confirmResolver(false)
-// Après chaque résolution, confirmResolver est remis à null.
-let confirmResolver = null;
+// Pattern simple : une variable pendingAction stocke la fonction à exécuter
+// si l'utilisateur clique sur Confirmer. Rien de plus, rien d'asynchrone.
+//   - showConfirm(msg, action) → stocke action et affiche la modale
+//   - clic Confirmer            → exécute pendingAction() puis la remet à null
+//   - clic Annuler / Escape     → remet pendingAction à null sans l'exécuter
+let pendingAction = null;
 
-function showConfirm(message) {
-    console.log('[admin] showConfirm called — message:', message);
-    return new Promise((resolve) => {
-        $('#confirmMessage').textContent = message;
-        confirmResolver = resolve;
-        console.log('[admin] showConfirm: confirmResolver stored, typeof:', typeof confirmResolver);
-        $('#confirmModal').hidden = false;
-    });
+function showConfirm(message, action) {
+    console.log('[admin] showConfirm called — message:', message, 'action typeof:', typeof action);
+    pendingAction = action;
+    $('#confirmMessage').textContent = message;
+    $('#confirmModal').hidden = false;
+    console.log('[admin] showConfirm: pendingAction stored, typeof:', typeof pendingAction);
 }
 
 // ---------- Save to Netlify Function ----------
@@ -324,31 +322,26 @@ async function handleArchive(index) {
     }
 }
 
-async function handleDelete(index) {
+function handleDelete(index) {
     const ev = state.events[index];
     console.log('[admin] handleDelete start — index:', index, 'titre:', ev && ev.titre);
 
-    const confirmed = await showConfirm(`Supprimer définitivement « ${ev.titre || 'cet événement'} » ?`);
-    console.log('[admin] handleDelete — user confirmed:', confirmed);
-
-    if (!confirmed) {
-        console.log('[admin] handleDelete aborted by user');
-        return;
-    }
-
-    const backup = JSON.parse(JSON.stringify(state.events));
-    state.events.splice(index, 1);
-    try {
-        console.log('[admin] handleDelete → saveAll after splice, remaining:', state.events.length);
-        await saveAll();
-        renderEvents();
-        showToast('Événement supprimé ✓');
-        console.log('[admin] handleDelete success');
-    } catch (err) {
-        console.error('[admin] handleDelete failed, restoring backup:', err);
-        state.events = backup;
-        showToast('Erreur : ' + err.message, 'error');
-    }
+    showConfirm(`Supprimer définitivement « ${ev.titre || 'cet événement'} » ?`, async () => {
+        console.log('[admin] handleDelete action running — index:', index);
+        const backup = JSON.parse(JSON.stringify(state.events));
+        state.events.splice(index, 1);
+        try {
+            console.log('[admin] handleDelete → saveAll, remaining:', state.events.length);
+            await saveAll();
+            renderEvents();
+            showToast('Événement supprimé ✓');
+            console.log('[admin] handleDelete success');
+        } catch (err) {
+            console.error('[admin] handleDelete failed, restoring backup:', err);
+            state.events = backup;
+            showToast('Erreur : ' + err.message, 'error');
+        }
+    });
 }
 
 // ---------- Init ----------
@@ -378,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Boutons fermant la modale d'édition d'événement
     $$('[data-close]').forEach(el => el.addEventListener('click', closeModal));
 
-    // ========== Modale de confirmation — pattern resolver direct ==========
+    // ========== Modale de confirmation — pattern pendingAction ==========
     const confirmOkBtn     = $('#confirmOkBtn');
     const confirmCancelBtn = $('#confirmCancelBtn');
     const confirmModalEl   = $('#confirmModal');
@@ -390,34 +383,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!confirmOkBtn)     console.error('[admin] init: #confirmOkBtn introuvable !');
     if (!confirmCancelBtn) console.error('[admin] init: #confirmCancelBtn introuvable !');
 
-    // Bouton Confirmer : appelle directement confirmResolver(true)
+    // Bouton Confirmer : exécute pendingAction() si présent, puis la remet à null
     if (confirmOkBtn) {
         confirmOkBtn.addEventListener('click', () => {
-            console.log('[admin] #confirmOkBtn CLICK — confirmResolver typeof:', typeof confirmResolver);
-            confirmModalEl.hidden = true;
-            if (confirmResolver) {
-                console.log('[admin] → confirmResolver(true)');
-                confirmResolver(true);
-                confirmResolver = null;
+            console.log('[admin] #confirmOkBtn CLICK — pendingAction typeof:', typeof pendingAction);
+            if (pendingAction) {
+                console.log('[admin] → exécution de pendingAction');
+                const action = pendingAction;
+                pendingAction = null;
+                try { action(); }
+                catch (err) { console.error('[admin] pendingAction threw:', err); }
             } else {
-                console.warn('[admin] #confirmOkBtn: aucun resolver à appeler');
+                console.warn('[admin] #confirmOkBtn: aucune pendingAction');
             }
+            confirmModalEl.hidden = true;
         });
         console.log('[admin] init: listener attaché sur #confirmOkBtn');
     }
 
-    // Bouton Annuler : appelle directement confirmResolver(false)
+    // Bouton Annuler : annule simplement l'action en attente
     if (confirmCancelBtn) {
         confirmCancelBtn.addEventListener('click', () => {
-            console.log('[admin] #confirmCancelBtn CLICK — confirmResolver typeof:', typeof confirmResolver);
+            console.log('[admin] #confirmCancelBtn CLICK — cancelling pendingAction');
+            pendingAction = null;
             confirmModalEl.hidden = true;
-            if (confirmResolver) {
-                console.log('[admin] → confirmResolver(false)');
-                confirmResolver(false);
-                confirmResolver = null;
-            } else {
-                console.warn('[admin] #confirmCancelBtn: aucun resolver à appeler');
-            }
         });
         console.log('[admin] init: listener attaché sur #confirmCancelBtn');
     }
@@ -425,12 +414,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Clic sur le backdrop = annulation
     if (confirmBackdrop) {
         confirmBackdrop.addEventListener('click', () => {
-            console.log('[admin] confirm backdrop CLICK — cancelling');
+            console.log('[admin] confirm backdrop CLICK — cancelling pendingAction');
+            pendingAction = null;
             confirmModalEl.hidden = true;
-            if (confirmResolver) {
-                confirmResolver(false);
-                confirmResolver = null;
-            }
         });
     }
 
@@ -439,12 +425,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key !== 'Escape') return;
         if (!$('#eventModal').hidden) closeModal();
         if (confirmModalEl && !confirmModalEl.hidden) {
-            console.log('[admin] Escape on confirm modal — cancelling');
+            console.log('[admin] Escape on confirm modal — cancelling pendingAction');
+            pendingAction = null;
             confirmModalEl.hidden = true;
-            if (confirmResolver) {
-                confirmResolver(false);
-                confirmResolver = null;
-            }
         }
     });
 
