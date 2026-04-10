@@ -432,6 +432,7 @@ a { color: inherit; text-decoration: none; }
     padding: 20px;
     animation: fadeIn 0.2s ease;
 }
+.modal[hidden] { display: none !important; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 .modal-backdrop {
