@@ -438,6 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Delegation : boutons sur les cartes événements
+    console.log('[admin] eventsGroups element:', $('#eventsGroups'));
     $('#eventsGroups').addEventListener('click', (e) => {
         const btn = e.target.closest('button[data-action]');
         if (!btn) return;
