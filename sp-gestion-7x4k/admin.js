@@ -218,20 +218,43 @@ function closeConfirm() {
 // ---------- Save to Netlify Function ----------
 async function saveAll() {
     const payload = {
-        password: state.password || ADMIN_PASSWORD,
-        data: {
-            _comment: state.comment || '',
-            events: state.events
-        }
+        events: state.events,
+        token: state.password || ADMIN_PASSWORD
     };
-    const res = await fetch(SAVE_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+
+    // DEBUG : trace la requête envoyée (le token est masqué)
+    console.log('[admin] saveAll → POST', SAVE_ENDPOINT, {
+        eventsCount: payload.events.length,
+        tokenMasked: payload.token ? payload.token.slice(0, 2) + '***' : '(absent)'
     });
-    const json = await res.json().catch(() => ({ ok: false, error: 'Réponse invalide' }));
+
+    let res, json;
+    try {
+        res = await fetch(SAVE_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        console.log('[admin] saveAll ← response', {
+            status: res.status,
+            ok: res.ok
+        });
+    } catch (err) {
+        console.error('[admin] saveAll fetch FAILED:', err);
+        throw new Error('Réseau : ' + (err.message || 'impossible de joindre le serveur'));
+    }
+
+    try {
+        json = await res.json();
+    } catch (err) {
+        console.error('[admin] saveAll response not JSON:', err);
+        throw new Error('Réponse invalide du serveur');
+    }
+
+    console.log('[admin] saveAll body:', json);
+
     if (!res.ok || !json.ok) {
-        throw new Error(json.error || 'Erreur serveur');
+        throw new Error(json.error || ('Erreur serveur HTTP ' + res.status));
     }
     return json;
 }
@@ -341,6 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Confirm OK
     $('#confirmOkBtn').addEventListener('click', () => {
+        console.log('[admin] #confirmOkBtn click — callback present:', typeof confirmCallback);
         const cb = confirmCallback;
         closeConfirm();
         if (typeof cb === 'function') cb();
