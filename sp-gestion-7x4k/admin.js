@@ -203,43 +203,22 @@ function openModal(index = null) {
 
 function closeModal() { $('#eventModal').hidden = true; }
 
-// ---------- Confirm Modal (Promise-based) ----------
-// On utilise un "resolver" qui est la fonction resolve() de la Promise
-// retournée par openConfirm(). Le clic sur Confirmer l'appelle avec true,
-// le clic sur Annuler / backdrop / Escape l'appelle avec false.
-// Ce pattern garantit qu'on ne peut JAMAIS perdre le callback : il est
-// lié à la Promise en cours, pas à une variable partagée.
+// ---------- Confirm Modal ----------
+// Variable globale qui stocke la fonction resolve() de la Promise en cours.
+// - showConfirm() affiche la modale et retourne une Promise
+// - Le listener sur #confirmOkBtn appelle confirmResolver(true)
+// - Le listener sur #confirmCancelBtn appelle confirmResolver(false)
+// Après chaque résolution, confirmResolver est remis à null.
 let confirmResolver = null;
 
-function openConfirm(message) {
-    console.log('[admin] openConfirm called — message:', message);
+function showConfirm(message) {
+    console.log('[admin] showConfirm called — message:', message);
     return new Promise((resolve) => {
         $('#confirmMessage').textContent = message;
-        // Si une précédente modale était encore ouverte (cas limite), on
-        // résout son resolver à false pour ne pas la laisser pendante.
-        if (confirmResolver) {
-            console.warn('[admin] openConfirm: un resolver précédent existait, résolution à false');
-            const prev = confirmResolver;
-            confirmResolver = null;
-            prev(false);
-        }
         confirmResolver = resolve;
-        console.log('[admin] openConfirm: resolver stored, typeof:', typeof confirmResolver);
+        console.log('[admin] showConfirm: confirmResolver stored, typeof:', typeof confirmResolver);
         $('#confirmModal').hidden = false;
     });
-}
-
-function closeConfirm(result = false) {
-    console.log('[admin] closeConfirm called — result:', result, 'resolver typeof:', typeof confirmResolver);
-    $('#confirmModal').hidden = true;
-    if (confirmResolver) {
-        const r = confirmResolver;
-        confirmResolver = null;
-        console.log('[admin] closeConfirm: resolving promise with', result);
-        r(result);
-    } else {
-        console.log('[admin] closeConfirm: aucun resolver à résoudre');
-    }
 }
 
 // ---------- Save to Netlify Function ----------
@@ -349,7 +328,7 @@ async function handleDelete(index) {
     const ev = state.events[index];
     console.log('[admin] handleDelete start — index:', index, 'titre:', ev && ev.titre);
 
-    const confirmed = await openConfirm(`Supprimer définitivement « ${ev.titre || 'cet événement'} » ?`);
+    const confirmed = await showConfirm(`Supprimer définitivement « ${ev.titre || 'cet événement'} » ?`);
     console.log('[admin] handleDelete — user confirmed:', confirmed);
 
     if (!confirmed) {
@@ -396,37 +375,75 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event form
     $('#eventForm').addEventListener('submit', handleSaveEvent);
 
-    // Modal close buttons
+    // Boutons fermant la modale d'édition d'événement
     $$('[data-close]').forEach(el => el.addEventListener('click', closeModal));
 
-    // Annuler / backdrop de la modal de confirmation : on résout avec false
-    $$('[data-close-confirm]').forEach(el => {
-        el.addEventListener('click', () => {
-            console.log('[admin] [data-close-confirm] click — resolving false');
-            closeConfirm(false);
-        });
-    });
+    // ========== Modale de confirmation — pattern resolver direct ==========
+    const confirmOkBtn     = $('#confirmOkBtn');
+    const confirmCancelBtn = $('#confirmCancelBtn');
+    const confirmModalEl   = $('#confirmModal');
+    const confirmBackdrop  = confirmModalEl ? confirmModalEl.querySelector('.modal-backdrop') : null;
 
-    // Bouton Confirmer : on résout avec true
-    const confirmOkBtn = $('#confirmOkBtn');
-    console.log('[admin] init: confirmOkBtn element =', confirmOkBtn);
-    if (!confirmOkBtn) {
-        console.error('[admin] init: #confirmOkBtn introuvable dans le DOM !');
-    } else {
-        confirmOkBtn.addEventListener('click', (e) => {
-            console.log('[admin] #confirmOkBtn CLICK — resolver typeof:', typeof confirmResolver, 'event:', e.type);
-            closeConfirm(true);
+    console.log('[admin] init: confirmOkBtn =', confirmOkBtn);
+    console.log('[admin] init: confirmCancelBtn =', confirmCancelBtn);
+
+    if (!confirmOkBtn)     console.error('[admin] init: #confirmOkBtn introuvable !');
+    if (!confirmCancelBtn) console.error('[admin] init: #confirmCancelBtn introuvable !');
+
+    // Bouton Confirmer : appelle directement confirmResolver(true)
+    if (confirmOkBtn) {
+        confirmOkBtn.addEventListener('click', () => {
+            console.log('[admin] #confirmOkBtn CLICK — confirmResolver typeof:', typeof confirmResolver);
+            confirmModalEl.hidden = true;
+            if (confirmResolver) {
+                console.log('[admin] → confirmResolver(true)');
+                confirmResolver(true);
+                confirmResolver = null;
+            } else {
+                console.warn('[admin] #confirmOkBtn: aucun resolver à appeler');
+            }
         });
         console.log('[admin] init: listener attaché sur #confirmOkBtn');
     }
 
-    // Escape closes modals (cancel = false pour le confirm)
+    // Bouton Annuler : appelle directement confirmResolver(false)
+    if (confirmCancelBtn) {
+        confirmCancelBtn.addEventListener('click', () => {
+            console.log('[admin] #confirmCancelBtn CLICK — confirmResolver typeof:', typeof confirmResolver);
+            confirmModalEl.hidden = true;
+            if (confirmResolver) {
+                console.log('[admin] → confirmResolver(false)');
+                confirmResolver(false);
+                confirmResolver = null;
+            } else {
+                console.warn('[admin] #confirmCancelBtn: aucun resolver à appeler');
+            }
+        });
+        console.log('[admin] init: listener attaché sur #confirmCancelBtn');
+    }
+
+    // Clic sur le backdrop = annulation
+    if (confirmBackdrop) {
+        confirmBackdrop.addEventListener('click', () => {
+            console.log('[admin] confirm backdrop CLICK — cancelling');
+            confirmModalEl.hidden = true;
+            if (confirmResolver) {
+                confirmResolver(false);
+                confirmResolver = null;
+            }
+        });
+    }
+
+    // Escape = annulation
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            if (!$('#eventModal').hidden) closeModal();
-            if (!$('#confirmModal').hidden) {
-                console.log('[admin] Escape on confirm modal — resolving false');
-                closeConfirm(false);
+        if (e.key !== 'Escape') return;
+        if (!$('#eventModal').hidden) closeModal();
+        if (confirmModalEl && !confirmModalEl.hidden) {
+            console.log('[admin] Escape on confirm modal — cancelling');
+            confirmModalEl.hidden = true;
+            if (confirmResolver) {
+                confirmResolver(false);
+                confirmResolver = null;
             }
         }
     });
