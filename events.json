@@ -45,15 +45,6 @@
             "type": "concert",
             "lien": "",
             "statut": "past"
-        },
-        {
-            "date": "2025-10-26",
-            "titre": "Cocktail privé",
-            "lieu": "Papangue Hotel",
-            "heure": "18h30",
-            "type": "événement privé",
-            "lien": "",
-            "statut": "past"
         }
     ]
 }
