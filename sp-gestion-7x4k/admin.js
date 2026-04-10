@@ -383,9 +383,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!confirmOkBtn)     console.error('[admin] init: #confirmOkBtn introuvable !');
     if (!confirmCancelBtn) console.error('[admin] init: #confirmCancelBtn introuvable !');
 
-    // Bouton Confirmer : exécute pendingAction() si présent, puis la remet à null
+    // Bouton Confirmer : stopPropagation pour empêcher tout re-bubbling, puis
+    // exécute pendingAction() si présent.
     if (confirmOkBtn) {
-        confirmOkBtn.addEventListener('click', () => {
+        confirmOkBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
             console.log('[admin] #confirmOkBtn CLICK — pendingAction typeof:', typeof pendingAction);
             if (pendingAction) {
                 console.log('[admin] → exécution de pendingAction');
@@ -401,9 +404,11 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('[admin] init: listener attaché sur #confirmOkBtn');
     }
 
-    // Bouton Annuler : annule simplement l'action en attente
+    // Bouton Annuler : stopPropagation + reset pendingAction
     if (confirmCancelBtn) {
-        confirmCancelBtn.addEventListener('click', () => {
+        confirmCancelBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
             console.log('[admin] #confirmCancelBtn CLICK — cancelling pendingAction');
             pendingAction = null;
             confirmModalEl.hidden = true;
@@ -411,9 +416,10 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('[admin] init: listener attaché sur #confirmCancelBtn');
     }
 
-    // Clic sur le backdrop = annulation
+    // Clic sur le backdrop = annulation (avec stopPropagation)
     if (confirmBackdrop) {
-        confirmBackdrop.addEventListener('click', () => {
+        confirmBackdrop.addEventListener('click', (e) => {
+            e.stopPropagation();
             console.log('[admin] confirm backdrop CLICK — cancelling pendingAction');
             pendingAction = null;
             confirmModalEl.hidden = true;
