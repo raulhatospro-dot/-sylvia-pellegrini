@@ -1,0 +1,12 @@
+# Fichiers de sauvegarde créés par save.php
+*.bak
+
+# Fichiers temporaires d'écriture atomique
+*.tmp
+
+# Fichiers système OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

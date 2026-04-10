@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin — Gestion des événements</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <!-- ============ LOGIN ============ -->
+    <section class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <div class="login-logo">SP</div>
+            <h1>Espace de gestion</h1>
+            <p class="login-subtitle">Sylvia Pellegrini — Événements</p>
+            <form id="loginForm" autocomplete="off">
+                <div class="form-field">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" required autofocus>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Se connecter</button>
+                <p class="login-error" id="loginError"></p>
+            </form>
+        </div>
+    </section>
+
+    <!-- ============ DASHBOARD ============ -->
+    <section class="dashboard" id="dashboard" hidden>
+        <header class="admin-header">
+            <div class="admin-header-inner">
+                <div class="brand">
+                    <span class="brand-mark">SP</span>
+                    <div>
+                        <h1>Gestion des événements</h1>
+                        <p>Sylvia Pellegrini</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <a href="../" target="_blank" class="btn btn-ghost">Voir le site</a>
+                    <button type="button" class="btn btn-ghost" id="logoutBtn">Déconnexion</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="admin-container">
+
+                <div class="toolbar">
+                    <div class="toolbar-info">
+                        <h2>Mes événements</h2>
+                        <p id="eventsCount">—</p>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="addEventBtn">
+                        <span class="btn-icon">+</span> Ajouter un événement
+                    </button>
+                </div>
+
+                <div class="toast" id="toast" hidden></div>
+
+                <div class="events-groups" id="eventsGroups">
+                    <p class="loading-msg">Chargement...</p>
+                </div>
+
+            </div>
+        </main>
+    </section>
+
+    <!-- ============ MODAL FORMULAIRE ============ -->
+    <div class="modal" id="eventModal" hidden>
+        <div class="modal-backdrop" data-close></div>
+        <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <header class="modal-header">
+                <h3 id="modalTitle">Ajouter un événement</h3>
+                <button type="button" class="modal-close" data-close aria-label="Fermer">&times;</button>
+            </header>
+            <form id="eventForm" class="modal-body">
+                <input type="hidden" id="eventIndex" value="">
+
+                <div class="form-field">
+                    <label for="evTitre">Titre de l'événement *</label>
+                    <input type="text" id="evTitre" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="evDate">Date *</label>
+                        <input type="date" id="evDate" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="evHeure">Heure</label>
+                        <input type="text" id="evHeure" placeholder="ex : 20h00">
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label for="evLieu">Lieu *</label>
+                    <input type="text" id="evLieu" required placeholder="ex : Saint-Denis, La Réunion">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="evType">Type *</label>
+                        <select id="evType" required>
+                            <option value="concert">Concert</option>
+                            <option value="formation">Formation</option>
+                            <option value="atelier">Atelier</option>
+                            <option value="événement privé">Événement privé</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="evStatut">Statut *</label>
+                        <select id="evStatut" required>
+                            <option value="upcoming">À venir</option>
+                            <option value="past">Passé</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label for="evLien">Lien info (optionnel)</label>
+                    <input type="url" id="evLien" placeholder="https://...">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" data-close>Annuler</button>
+                    <button type="submit" class="btn btn-primary" id="saveEventBtn">Sauvegarder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============ MODAL CONFIRMATION ============ -->
+    <div class="modal" id="confirmModal" hidden>
+        <div class="modal-backdrop" data-close-confirm></div>
+        <div class="modal-panel modal-small" role="dialog" aria-modal="true">
+            <header class="modal-header">
+                <h3 id="confirmTitle">Confirmation</h3>
+            </header>
+            <div class="modal-body">
+                <p id="confirmMessage">Êtes-vous sûre ?</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" data-close-confirm>Annuler</button>
+                    <button type="button" class="btn btn-danger" id="confirmOkBtn">Confirmer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
