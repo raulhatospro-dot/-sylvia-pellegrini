@@ -1,17 +1,20 @@
 /* ============================================
-   SYLVIA PELLEGRINI — Admin
+   SYLVIA PELLEGRINI — Admin (Netlify)
    ============================================ */
 
-// Mot de passe d'accès (modifiable facilement)
+/* ============================================================
+   CONFIGURATION
+   ------------------------------------------------------------
+   Mot de passe admin — doit correspondre à la variable
+   ADMIN_PASSWORD définie sur Netlify (ou à la valeur par défaut
+   DEFAULT_ADMIN_PASSWORD dans netlify/functions/save-events.js).
+   ============================================================ */
 const ADMIN_PASSWORD = 'sylvia2024';
 
-// Clé de session partagée avec save.php pour empêcher les POST non autorisés
-const ADMIN_TOKEN = 'sp-admin-7x4k-2024';
+// Endpoint Netlify Function qui écrit events.json dans le repo GitHub
+const SAVE_ENDPOINT = '/.netlify/functions/save-events';
 
-// Endpoint de sauvegarde côté serveur
-const SAVE_ENDPOINT = 'save.php';
-
-// Chemin vers le JSON des événements (servi par Apache)
+// URL publique du fichier events.json (servi par Netlify)
 const EVENTS_URL = '../events.json';
 
 const LS_KEY = 'sp_admin_session';
@@ -23,7 +26,8 @@ const MONTHS_FR = [
 
 let state = {
     events: [],
-    comment: null // préserve le _comment du JSON
+    comment: null, // préserve le _comment du JSON
+    password: null // gardé en mémoire pour les appels à la function
 };
 
 // ---------- Utils ----------
@@ -55,23 +59,27 @@ function showToast(message, type = 'success') {
     toast.className = 'toast ' + type;
     toast.hidden = false;
     clearTimeout(showToast._t);
-    showToast._t = setTimeout(() => { toast.hidden = true; }, 4000);
+    showToast._t = setTimeout(() => { toast.hidden = true; }, 4500);
 }
 
 // ---------- Auth ----------
 function isLoggedIn() {
-    try { return localStorage.getItem(LS_KEY) === ADMIN_TOKEN; }
-    catch (e) { return false; }
+    try {
+        const stored = localStorage.getItem(LS_KEY);
+        return stored === ADMIN_PASSWORD;
+    } catch (e) { return false; }
 }
 
 function login(password) {
     if (password !== ADMIN_PASSWORD) return false;
-    try { localStorage.setItem(LS_KEY, ADMIN_TOKEN); } catch (e) {}
+    try { localStorage.setItem(LS_KEY, password); } catch (e) {}
+    state.password = password;
     return true;
 }
 
 function logout() {
     try { localStorage.removeItem(LS_KEY); } catch (e) {}
+    state.password = null;
     showLogin();
 }
 
@@ -86,6 +94,8 @@ function showLogin() {
 function showDashboard() {
     $('#loginScreen').hidden = true;
     $('#dashboard').hidden = false;
+    // Récupère le password depuis localStorage pour les prochains saves
+    try { state.password = localStorage.getItem(LS_KEY); } catch (e) {}
     loadEvents();
 }
 
@@ -205,10 +215,10 @@ function closeConfirm() {
     confirmCallback = null;
 }
 
-// ---------- Save to server ----------
+// ---------- Save to Netlify Function ----------
 async function saveAll() {
     const payload = {
-        token: ADMIN_TOKEN,
+        password: state.password || ADMIN_PASSWORD,
         data: {
             _comment: state.comment || '',
             events: state.events

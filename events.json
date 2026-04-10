@@ -1,49 +1,57 @@
 {
-    "_comment": "===============================================================================  GUIDE — COMMENT AJOUTER OU MODIFIER UN ÉVÉNEMENT  ===============================================================================  Ce fichier contrôle entièrement la section 'Événements' du site. Vous pouvez  l'éditer directement dans un éditeur de texte, puis sauvegarder : le site se  met à jour automatiquement au prochain rafraîchissement.  CHAQUE ÉVÉNEMENT EST UN BLOC ENTRE ACCOLADES { } dans la liste 'events'.  Les blocs sont séparés par des virgules. Respectez bien les guillemets ' \" '.  CHAMPS À REMPLIR POUR CHAQUE ÉVÉNEMENT :    • date   : la date au format AAAA-MM-JJ  (ex : '2026-05-15' pour le 15 mai 2026)    • titre  : le nom de l'événement    • lieu   : la ville ou la salle    • heure  : l'heure de début (ex : '20h00')    • type   : la catégorie — 'concert', 'atelier', 'stage', 'formation', 'conférence'    • lien   : une URL pour réserver/s'inscrire (laissez '' si pas de lien)    • statut : 'upcoming' pour un événement à venir, 'past' pour un événement passé  ASTUCE : pour supprimer un événement, effacez simplement son bloc entier  (des { jusqu'à la } qui lui correspondent, plus la virgule).  ASTUCE : pour archiver un événement passé, changez simplement 'upcoming' en 'past'.  ==============================================================================",
-
+    "_comment": "Ce fichier est géré par l'interface d'administration (sp-gestion-7x4k). Les modifications via l'admin sont automatiquement commitées dans le repo GitHub via la Netlify Function save-events. Format attendu pour chaque événement : date (AAAA-MM-JJ), titre, lieu, heure, type (concert/formation/atelier/événement privé), lien (optionnel), statut (upcoming/past).",
     "events": [
         {
-            "date": "2026-04-24",
-            "titre": "Atelier Voix & Prise de parole",
-            "lieu": "Saint-Denis, La Réunion",
-            "heure": "09h30",
-            "type": "atelier",
-            "lien": "",
-            "statut": "upcoming"
-        },
-        {
-            "date": "2026-05-15",
-            "titre": "Soirée Jazz & Soul en trio",
-            "lieu": "Saint-Paul, La Réunion",
+            "date": "2024-09-14",
+            "titre": "Jazz Club de la Réunion",
+            "lieu": "La Cité des Arts",
             "heure": "20h00",
-            "type": "concert",
-            "lien": "",
-            "statut": "upcoming"
-        },
-        {
-            "date": "2026-06-08",
-            "titre": "Stage intensif — Voix, Gestuelle et Posture",
-            "lieu": "Sur inscription — places limitées",
-            "heure": "10h00",
-            "type": "stage",
-            "lien": "",
-            "statut": "upcoming"
-        },
-        {
-            "date": "2026-02-10",
-            "titre": "Concert Carnet de voyages",
-            "lieu": "Le Tampon, La Réunion",
-            "heure": "19h30",
             "type": "concert",
             "lien": "",
             "statut": "past"
         },
         {
-            "date": "2025-11-22",
-            "titre": "Résidence artistique — Chorale cycle 3",
-            "lieu": "École des Avirons",
-            "heure": "14h00",
-            "type": "formation",
+            "date": "2024-11-22",
+            "titre": "Événement privé",
+            "lieu": "Domaine des Palmiers, Saint-Paul",
+            "heure": "19h30",
+            "type": "événement privé",
+            "lien": "",
+            "statut": "past"
+        },
+        {
+            "date": "2025-02-08",
+            "titre": "Lespas — Jazz Club Réunion",
+            "lieu": "Lespas Culturel Leconte de Lisle, Saint-Paul",
+            "heure": "20h00",
+            "type": "concert",
+            "lien": "",
+            "statut": "past"
+        },
+        {
+            "date": "2025-04-19",
+            "titre": "La Cerise",
+            "lieu": "Saint-Paul, La Réunion",
+            "heure": "19h00",
+            "type": "concert",
+            "lien": "",
+            "statut": "past"
+        },
+        {
+            "date": "2025-07-12",
+            "titre": "Bal Swing / Lindy Hop Event",
+            "lieu": "La Réunion",
+            "heure": "20h30",
+            "type": "concert",
+            "lien": "",
+            "statut": "past"
+        },
+        {
+            "date": "2025-10-26",
+            "titre": "Cocktail privé",
+            "lieu": "Papangue Hotel",
+            "heure": "18h30",
+            "type": "événement privé",
             "lien": "",
             "statut": "past"
         }
