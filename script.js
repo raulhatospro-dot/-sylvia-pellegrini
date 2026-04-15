@@ -2,15 +2,6 @@
    SYLVIA PELLEGRINI — Scripts
    ============================================ */
 
-/* ============================================================
-   CONFIGURATION CALENDLY
-   ------------------------------------------------------------
-   Remplacer l'URL ci-dessous par votre vrai lien Calendly
-   (ex : https://calendly.com/sylvia-pellegrini/30min)
-   ============================================================ */
-const CALENDLY_URL = 'https://calendly.com/sylvia-pellegrini'; // ← à remplacer
-/* ============================================================ */
-
 document.addEventListener('DOMContentLoaded', () => {
 
 
@@ -93,19 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- Événements dynamiques (events.json) ----------
     loadEvents(observeReveals);
-
-    // ---------- Calendly popup ----------
-    const calendlyBtn = document.getElementById('calendlyBtn');
-    if (calendlyBtn) {
-        calendlyBtn.addEventListener('click', () => {
-            if (window.Calendly && typeof Calendly.initPopupWidget === 'function') {
-                Calendly.initPopupWidget({ url: CALENDLY_URL });
-            } else {
-                // Fallback si le script Calendly n'est pas encore chargé
-                window.open(CALENDLY_URL, '_blank', 'noopener');
-            }
-        });
-    }
 
     // ---------- Contact form → Formspree ----------
     const form = document.getElementById('contactForm');
