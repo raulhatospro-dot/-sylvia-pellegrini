@@ -44,9 +44,33 @@
         /* Cards "Pour qui" — variante plus sobre */
         .audience-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(6, 1fr);
             gap: 24px;
             margin-top: 2rem;
+        }
+        .audience-item {
+            grid-column: span 2;
+        }
+        .audience-item:nth-child(4) {
+            grid-column: 2 / span 2;
+        }
+        .audience-item:nth-child(5) {
+            grid-column: 4 / span 2;
+        }
+        @media (max-width: 900px) {
+            .audience-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .audience-item,
+            .audience-item:nth-child(4),
+            .audience-item:nth-child(5) {
+                grid-column: span 1;
+            }
+        }
+        @media (max-width: 560px) {
+            .audience-grid {
+                grid-template-columns: 1fr;
+            }
         }
         .audience-item {
             background: var(--white);
@@ -374,7 +398,7 @@
             <span class="eyebrow">Étape suivante</span>
             <h2>Prêt(e) à libérer votre voix&nbsp;?</h2>
             <p class="lead">Chaque projet est unique. Parlons de votre besoin, de votre contexte et de vos objectifs — je reviens vers vous avec une proposition adaptée.</p>
-            <a href="index.html#reserver" class="btn btn-gold">Me contacter pour un devis</a>
+            <a href="index.html#contact" class="btn btn-gold">Me contacter pour un devis</a>
         </div>
     </section>
 
