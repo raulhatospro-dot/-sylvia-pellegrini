@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation Voix & Prise de Parole par Sylvia Pellegrini. Ateliers, stages, formations entreprise et coaching individuel à La Réunion.">
+    <meta name="keywords" content="formation voix, prise de parole, coach vocal La Réunion, stage vocal, formation entreprise, Sylvia Pellegrini">
+    <meta property="og:title" content="Formation Voix & Prise de Parole | Sylvia Pellegrini">
+    <meta property="og:description" content="Révélez votre voix et votre présence — Formations, ateliers, stages et coaching avec Sylvia Pellegrini.">
+    <meta property="og:url" content="https://sylviapellegrini.com/formation.html">
+    <title>Formation Voix & Prise de Parole | Sylvia Pellegrini</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Hero réduit spécifique à la page formation */
+        .hero-formation {
+            min-height: 70vh;
+            background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-formation::before {
+            content: "";
+            position: absolute;
+            top: -30%; right: -10%;
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(201, 169, 97, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-formation::after {
+            content: "";
+            position: absolute;
+            bottom: -40%; left: -10%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(201, 169, 97, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-formation h1 {
+            font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+        }
+
+        /* Cards "Pour qui" — variante plus sobre */
+        .audience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-top: 2rem;
+        }
+        .audience-item {
+            background: var(--white);
+            padding: 32px 28px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-left: 3px solid var(--gold);
+            transition: all var(--transition);
+        }
+        .audience-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-strong);
+            border-left-color: var(--gold-dark);
+        }
+        .audience-item h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.4rem;
+        }
+        .audience-item p {
+            font-size: 0.92rem;
+            margin: 0;
+        }
+
+        /* Section objectifs — fond clair, deux colonnes pour la liste */
+        .objectifs-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 10px 40px;
+            margin-top: 2rem;
+            list-style: none;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .objectifs-list li {
+            padding: 14px 0 14px 36px;
+            position: relative;
+            color: var(--text);
+            border-bottom: 1px solid var(--cream-dark);
+            font-size: 1.02rem;
+        }
+        .objectifs-list li::before {
+            content: "";
+            position: absolute;
+            left: 0; top: 22px;
+            width: 16px; height: 8px;
+            border-left: 2px solid var(--gold);
+            border-bottom: 2px solid var(--gold);
+            transform: rotate(-45deg);
+        }
+
+        /* Section formats — cards avec tarif sur devis */
+        .formats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
+            margin-top: 2rem;
+        }
+        .format-card {
+            background: var(--white);
+            padding: 40px 32px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: all var(--transition);
+            border: 1px solid transparent;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+        .format-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-strong);
+            border-color: rgba(201, 169, 97, 0.3);
+        }
+        .format-card .card-icon {
+            margin: 0 auto 22px;
+        }
+        .format-card h3 { color: var(--blue-deep); font-size: 1.25rem; margin-bottom: 0.8rem; }
+        .format-card p { color: var(--text-light); font-size: 0.95rem; margin-bottom: 1.2rem; flex: 1; }
+        .format-price {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--gold-dark);
+            padding-top: 16px;
+            border-top: 1px solid var(--cream-dark);
+            margin: 0;
+        }
+
+        /* Programme — timeline verticale */
+        .programme {
+            background: var(--white);
+        }
+        .programme-timeline {
+            max-width: 720px;
+            margin: 2rem auto 0;
+            position: relative;
+            padding-left: 30px;
+        }
+        .programme-timeline::before {
+            content: "";
+            position: absolute;
+            left: 6px; top: 10px; bottom: 10px;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--gold), rgba(201, 169, 97, 0.1));
+        }
+        .programme-step {
+            position: relative;
+            padding: 0 0 32px 28px;
+        }
+        .programme-step:last-child { padding-bottom: 0; }
+        .programme-step::before {
+            content: "";
+            position: absolute;
+            left: -30px; top: 10px;
+            width: 13px; height: 13px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 2px solid var(--gold);
+        }
+        .programme-step h3 {
+            font-size: 1.2rem;
+            color: var(--blue-deep);
+            margin-bottom: 0.4rem;
+        }
+        .programme-step p {
+            font-size: 0.96rem;
+            margin: 0;
+        }
+
+        /* CTA final */
+        .cta-devis {
+            background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-dark) 100%);
+            color: var(--white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-devis::before {
+            content: "";
+            position: absolute;
+            top: -40%; left: 50%;
+            transform: translateX(-50%);
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(201, 169, 97, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cta-devis h2 { color: var(--white); }
+        .cta-devis .lead { color: rgba(255, 255, 255, 0.85); max-width: 640px; margin: 0 auto 2rem; }
+        .cta-devis-wrap {
+            position: relative;
+            z-index: 2;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER / NAV -->
+    <header class="site-header scrolled" id="header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo"><span class="logo-script">Sylvia</span> Pellegrini</a>
+            <nav class="main-nav" id="mainNav">
+                <ul>
+                    <li><a href="formation.html">Formation</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="index.html#evenements">Événements</a></li>
+                    <li><a href="index.html#parcours">Parcours</a></li>
+                    <li><a href="index.html#temoignages">Témoignages</a></li>
+                    <li><a href="index.html#reserver">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero hero-formation" id="hero">
+        <div class="container hero-content">
+            <span class="eyebrow">Formation professionnelle</span>
+            <h1>Formation <span class="logo-script">Voix</span> &amp; Prise de Parole</h1>
+            <p class="hero-subtitle">Libérez votre voix, affirmez votre présence — une méthode sur mesure pour incarner chaque mot que vous prononcez.</p>
+            <a href="#cta-devis" class="btn btn-gold">Demander un devis</a>
+        </div>
+    </section>
+
+    <!-- POUR QUI -->
+    <section class="section services" id="pour-qui">
+        <div class="container">
+            <div class="section-head reveal">
+                <span class="eyebrow-dark">À qui s'adresse cette formation</span>
+                <h2>Pour qui ?</h2>
+                <p class="lead">Une formation ouverte à toute personne dont la voix est un outil de travail, d'expression ou de passion.</p>
+            </div>
+            <div class="audience-grid">
+                <article class="audience-item reveal">
+                    <h3>Enseignants &amp; formateurs</h3>
+                    <p>Formateurs, conférenciers, professeurs qui parlent au quotidien et souhaitent préserver leur voix.</p>
+                </article>
+                <article class="audience-item reveal">
+                    <h3>Chefs d'entreprise &amp; managers</h3>
+                    <p>Dirigeants et cadres qui veulent gagner en impact lors de leurs prises de parole internes ou publiques.</p>
+                </article>
+                <article class="audience-item reveal">
+                    <h3>Étudiants</h3>
+                    <p>Préparation aux oraux, soutenances, concours et entretiens décisifs.</p>
+                </article>
+                <article class="audience-item reveal">
+                    <h3>Prise de parole en public</h3>
+                    <p>Toute personne amenée à s'exprimer devant un auditoire et désirant gagner en aisance.</p>
+                </article>
+                <article class="audience-item reveal">
+                    <h3>Chorales &amp; groupes vocaux</h3>
+                    <p>Travail collectif sur la technique, l'harmonie et la cohésion vocale d'un ensemble.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- OBJECTIFS -->
+    <section class="section formation" id="objectifs">
+        <div class="container">
+            <div class="section-head reveal">
+                <span class="eyebrow-dark">Ce que vous allez apprendre</span>
+                <h2>Objectifs</h2>
+                <p class="lead">Des compétences concrètes pour transformer durablement votre rapport à la voix et à la prise de parole.</p>
+            </div>
+            <ul class="objectifs-list reveal">
+                <li>Maîtriser sa respiration et son placement vocal</li>
+                <li>Gagner en confiance et en présence sur scène</li>
+                <li>Développer son endurance vocale</li>
+                <li>Travailler sa diction et son articulation</li>
+                <li>Libérer sa voix naturelle</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- FORMATS -->
+    <section class="section services" id="formats">
+        <div class="container">
+            <div class="section-head reveal">
+                <span class="eyebrow-dark">Modalités d'accompagnement</span>
+                <h2>Formats disponibles</h2>
+                <p class="lead">Choisissez le format qui correspond le mieux à vos besoins, votre rythme et votre contexte.</p>
+            </div>
+            <div class="formats-grid">
+                <article class="format-card reveal">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h3>Atelier collectif</h3>
+                    <p>Sessions en petit groupe pour travailler la voix dans une dynamique d'entraide et de partage.</p>
+                    <p class="format-price">Durée et tarif sur devis</p>
+                </article>
+
+                <article class="format-card reveal">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <h3>Stage intensif</h3>
+                    <p>Immersion sur plusieurs jours pour des progrès rapides et marquants sur la voix et la posture.</p>
+                    <p class="format-price">Durée et tarif sur devis</p>
+                </article>
+
+                <article class="format-card reveal">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 9h1M9 13h1M9 17h1M14 9h1M14 13h1M14 17h1"/></svg>
+                    </div>
+                    <h3>Formation entreprise / collectivité</h3>
+                    <p>Programme bâti sur mesure pour vos équipes, en intra, selon vos enjeux et vos objectifs métier.</p>
+                    <p class="format-price">Conçu sur mesure</p>
+                </article>
+
+                <article class="format-card reveal">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3z"/><path d="M19 12a7 7 0 0 1-14 0"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                    </div>
+                    <h3>Coaching individuel</h3>
+                    <p>Accompagnement personnalisé et confidentiel, calibré précisément à votre voix et vos objectifs.</p>
+                    <p class="format-price">Durée et tarif sur devis</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAMME -->
+    <section class="section programme" id="programme">
+        <div class="container">
+            <div class="section-head reveal">
+                <span class="eyebrow-dark">Déroulé pédagogique</span>
+                <h2>Programme</h2>
+                <p class="lead">Un parcours progressif qui articule technique, conscience corporelle et mise en pratique.</p>
+            </div>
+            <div class="programme-timeline reveal">
+                <div class="programme-step">
+                    <h3>Échauffement vocal et corporel</h3>
+                    <p>Préparer le corps et la voix, libérer les tensions et entrer dans un état d'ouverture pour travailler sereinement.</p>
+                </div>
+                <div class="programme-step">
+                    <h3>Technique respiratoire</h3>
+                    <p>Comprendre et mobiliser le souffle comme moteur du son : diaphragme, soutien, gestion de l'air.</p>
+                </div>
+                <div class="programme-step">
+                    <h3>Placement et projection de la voix</h3>
+                    <p>Trouver le timbre juste, poser la voix et la porter sans forcer, pour être entendu(e) et compris(e).</p>
+                </div>
+                <div class="programme-step">
+                    <h3>Expression et interprétation</h3>
+                    <p>Travailler la diction, l'articulation, les nuances et l'intention pour incarner pleinement votre message.</p>
+                </div>
+                <div class="programme-step">
+                    <h3>Mise en situation pratique</h3>
+                    <p>Exercices concrets, simulations et retours bienveillants pour ancrer les acquis dans vos contextes réels.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA DEVIS -->
+    <section class="section cta-devis" id="cta-devis">
+        <div class="container cta-devis-wrap reveal">
+            <span class="eyebrow">Étape suivante</span>
+            <h2>Prêt(e) à libérer votre voix&nbsp;?</h2>
+            <p class="lead">Chaque projet est unique. Parlons de votre besoin, de votre contexte et de vos objectifs — je reviens vers vous avec une proposition adaptée.</p>
+            <a href="index.html#reserver" class="btn btn-gold">Me contacter pour un devis</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer" id="contact">
+        <div class="container footer-grid">
+            <div>
+                <h3 class="footer-title"><span class="logo-script">Sylvia</span> Pellegrini</h3>
+                <p class="footer-tag">Coach Vocale, Artiste &amp; Formatrice<br>Voix, Gestuelle et Posture</p>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <ul class="footer-list">
+                    <li><a href="mailto:vlisya@hotmail.fr">vlisya@hotmail.fr</a></li>
+                    <li><a href="tel:+262692686262">06 92 68 62 62</a></li>
+                    <li><a href="https://www.facebook.com/sylviachanteuse/" target="_blank" rel="noopener">Facebook</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Navigation</h4>
+                <ul class="footer-list">
+                    <li><a href="formation.html">Formation</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="index.html#evenements">Événements</a></li>
+                    <li><a href="index.html#parcours">Parcours</a></li>
+                    <li><a href="index.html#reserver">Réserver</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; <span id="year"></span> Sylvia Pellegrini — Tous droits réservés.</p>
+            <p><a href="index.html">Retour à l'accueil</a></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
