@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (showMoreBtn) {
         showMoreBtn.addEventListener('click', () => {
             document.querySelectorAll('.review-hidden').forEach(el => {
+                el.style.display = '';
                 el.classList.add('review-show');
             });
             showMoreBtn.style.display = 'none';
