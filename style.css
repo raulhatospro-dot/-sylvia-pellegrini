@@ -1040,3 +1040,11 @@ p { margin-bottom: 1rem; color: var(--text-light); }
     .btn-row { flex-direction: column; }
     .btn-row .btn { width: 100%; }
 }
+
+/* ============ REVIEWS SHOW MORE ============ */
+.review-hidden {
+    display: none;
+}
+.review-hidden.review-show {
+    display: block;
+}

@@ -82,6 +82,18 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     observeReveals();
 
+    // ---------- Voir tous les avis ----------
+    const showMoreBtn = document.getElementById('showMoreReviews');
+    if (showMoreBtn) {
+        showMoreBtn.addEventListener('click', () => {
+            document.querySelectorAll('.review-hidden').forEach(el => {
+                el.classList.add('review-show');
+            });
+            showMoreBtn.style.display = 'none';
+            observeReveals();
+        });
+    }
+
     // ---------- Événements dynamiques (events.json) ----------
     loadEvents(observeReveals);
 
