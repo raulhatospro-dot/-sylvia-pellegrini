@@ -85,50 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- Événements dynamiques (events.json) ----------
     loadEvents(observeReveals);
 
-    // ---------- Carousel Témoignages ----------
-    const carousel = document.getElementById('reviewCarousel');
-    if (carousel) {
-        const track = carousel.querySelector('.carousel-track');
-        const slides = carousel.querySelectorAll('.carousel-slide');
-        const prevBtn = carousel.querySelector('.carousel-prev');
-        const nextBtn = carousel.querySelector('.carousel-next');
-        const dotsContainer = document.getElementById('carouselDots');
-        let current = 0;
-        const total = slides.length;
-
-        slides.forEach((_, i) => {
-            const dot = document.createElement('button');
-            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-            dot.setAttribute('aria-label', 'Témoignage ' + (i + 1));
-            dot.addEventListener('click', () => goTo(i));
-            dotsContainer.appendChild(dot);
-        });
-
-        function goTo(index) {
-            current = (index + total) % total;
-            track.style.transform = 'translateX(-' + (current * 100) + '%)';
-            dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => {
-                d.classList.toggle('active', i === current);
-            });
-        }
-
-        prevBtn.addEventListener('click', () => goTo(current - 1));
-        nextBtn.addEventListener('click', () => goTo(current + 1));
-
-        let autoPlay = setInterval(() => goTo(current + 1), 6000);
-        carousel.addEventListener('mouseenter', () => clearInterval(autoPlay));
-        carousel.addEventListener('mouseleave', () => {
-            autoPlay = setInterval(() => goTo(current + 1), 6000);
-        });
-
-        let startX = 0;
-        track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
-        track.addEventListener('touchend', e => {
-            const diff = startX - e.changedTouches[0].clientX;
-            if (Math.abs(diff) > 50) goTo(current + (diff > 0 ? 1 : -1));
-        });
-    }
-
     // ---------- Contact form → Formspree ----------
     const form = document.getElementById('contactForm');
     const status = document.getElementById('formStatus');
