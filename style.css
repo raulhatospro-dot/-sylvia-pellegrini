@@ -1042,9 +1042,9 @@ p { margin-bottom: 1rem; color: var(--text-light); }
 }
 
 /* ============ REVIEWS SHOW MORE ============ */
-.review-hidden {
-    display: none;
+article.review.review-hidden {
+    display: none !important;
 }
-.review-hidden.review-show {
-    display: block;
+article.review.review-hidden.review-show {
+    display: block !important;
 }
