@@ -32,7 +32,7 @@ body {
     font-size: 16px;
     line-height: 1.7;
     color: var(--text);
-    background: var(--cream);
+    background: linear-gradient(180deg, #3a3a4a 0%, #e8e0f0 8%, #f0eaf6 20%, #f5f0fa 40%, var(--cream) 100%);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
 }
@@ -1047,4 +1047,55 @@ article.review.review-hidden {
 }
 article.review.review-hidden.review-show {
     display: block !important;
+}
+
+/* ============ HERO CARDS ============ */
+.hero-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 1rem;
+    max-width: 800px;
+}
+.hero-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--white);
+    transition: all 0.3s ease;
+}
+.hero-card:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-4px);
+    border-color: var(--gold);
+}
+.hero-card svg {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 10px;
+    color: var(--gold);
+    stroke: var(--gold);
+}
+.hero-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+    color: var(--white);
+}
+.hero-card p {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    line-height: 1.4;
+}
+@media (max-width: 700px) {
+    .hero-cards {
+        grid-template-columns: 1fr;
+        max-width: 300px;
+    }
 }
