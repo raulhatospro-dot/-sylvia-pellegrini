@@ -3,11 +3,11 @@
    ============================================ */
 
 :root {
-    --blue-deep: #7B68EE;
-    --blue-dark: #4a4080;
-    --blue-soft: #9b8fd4;
-    --cream: #faf7f2;
-    --cream-dark: #f1ebe0;
+    --blue-deep: #5a5a65;
+    --blue-dark: #3a3a42;
+    --blue-soft: #7a7a85;
+    --cream: #e8e8ea;
+    --cream-dark: #d0d0d5;
     --gold: #c9a961;
     --gold-dark: #a88843;
     --beige: #d9c9a8;
@@ -32,7 +32,7 @@ body {
     font-size: 16px;
     line-height: 1.7;
     color: var(--text);
-    background: linear-gradient(180deg, #3a3a4a 0%, #e8e0f0 8%, #f0eaf6 20%, #f5f0fa 40%, var(--cream) 100%);
+    background: linear-gradient(180deg, #3a3a42 0%, #b0b0b8 6%, #d0d0d5 15%, #dcdce0 30%, var(--cream) 100%);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
 }
