@@ -671,7 +671,10 @@ p { margin-bottom: 1rem; color: var(--text-light); }
 
 /* ============ TÉMOIGNAGES ============ */
 .temoignages {
-    background: var(--cream);
+    background: #d0d0d3;
+}
+#musique {
+    background: #d0d0d3;
 }
 
 .reviews {
