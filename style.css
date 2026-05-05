@@ -1044,11 +1044,11 @@ p { margin-bottom: 1rem; color: var(--text-light); }
 /* ============ MUSIC BUTTONS ============ */
 .btn-music {
     background: transparent;
-    color: var(--gold);
-    border: 2px solid var(--gold);
+    color: var(--text);
+    border: 2px solid #c9a84c;
 }
 .btn-music:hover {
-    background: var(--gold);
+    background: #c9a84c;
     color: var(--white);
 }
 
