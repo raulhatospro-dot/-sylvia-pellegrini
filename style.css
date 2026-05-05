@@ -1041,6 +1041,17 @@ p { margin-bottom: 1rem; color: var(--text-light); }
     .btn-row .btn { width: 100%; }
 }
 
+/* ============ MUSIC BUTTONS ============ */
+.btn-music {
+    background: transparent;
+    color: var(--gold);
+    border: 2px solid var(--gold);
+}
+.btn-music:hover {
+    background: var(--gold);
+    color: var(--white);
+}
+
 /* ============ REVIEWS SHOW MORE ============ */
 article.review.review-hidden {
     display: none !important;
