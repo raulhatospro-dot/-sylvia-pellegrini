@@ -674,7 +674,7 @@ p { margin-bottom: 1rem; color: var(--text-light); }
     background: #b8b8be;
 }
 #musique {
-    background: #b8b8be;
+    background: #a0a0a8;
 }
 
 .reviews {
@@ -1046,7 +1046,7 @@ p { margin-bottom: 1rem; color: var(--text-light); }
 
 /* ============ MUSIC BUTTONS ============ */
 .btn-music {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.3);
     color: var(--white);
     border: 2px solid #c9a84c;
 }
