@@ -671,10 +671,10 @@ p { margin-bottom: 1rem; color: var(--text-light); }
 
 /* ============ TÉMOIGNAGES ============ */
 .temoignages {
-    background: #d0d0d3;
+    background: #b8b8be;
 }
 #musique {
-    background: #d0d0d3;
+    background: #b8b8be;
 }
 
 .reviews {
@@ -1047,8 +1047,11 @@ p { margin-bottom: 1rem; color: var(--text-light); }
 /* ============ MUSIC BUTTONS ============ */
 .btn-music {
     background: transparent;
-    color: var(--text);
+    color: var(--white);
     border: 2px solid #c9a84c;
+}
+.btn-music svg {
+    fill: var(--white);
 }
 .btn-music:hover {
     background: #c9a84c;
