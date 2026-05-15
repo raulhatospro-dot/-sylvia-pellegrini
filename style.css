@@ -1127,7 +1127,7 @@ article.review.review-hidden.review-show {
     margin: 0;
     line-height: 1.4;
 }
-@media (max-width: 768px) {
+@media (max-width: 700px) {
     /* Hero cards : 1 colonne centrée horizontalement */
     .hero-cards {
         grid-template-columns: 1fr;
