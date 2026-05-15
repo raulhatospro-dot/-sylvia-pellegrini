@@ -201,6 +201,32 @@
             margin: 0;
         }
 
+        /* Pour qui & Formats — fond foncé pour alterner clair/foncé */
+        #pour-qui,
+        #formats {
+            background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-dark) 100%);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        #pour-qui::before,
+        #formats::before {
+            content: "";
+            position: absolute;
+            bottom: -40%; right: -10%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(201, 169, 97, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        #pour-qui .container,
+        #formats .container { position: relative; z-index: 2; }
+        #pour-qui h2,
+        #formats h2 { color: var(--white); }
+        #pour-qui .lead,
+        #formats .lead { color: rgba(255, 255, 255, 0.85); }
+        #pour-qui .eyebrow-dark,
+        #formats .eyebrow-dark { color: var(--gold); }
+
         /* CTA final */
         .cta-devis {
             background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-dark) 100%);
@@ -284,7 +310,7 @@
         <div class="container">
             <div class="section-head reveal">
                 <span class="eyebrow-dark">À qui s'adresse cette formation</span>
-                <h2 style="color:#4a4a52;">Pour qui ?</h2>
+                <h2>Pour qui ?</h2>
                 <p class="lead">Une formation ouverte à toute personne dont la voix est un outil de travail, d'expression ou de passion.</p>
             </div>
             <div class="audience-grid">
@@ -335,7 +361,7 @@
         <div class="container">
             <div class="section-head reveal">
                 <span class="eyebrow-dark">Modalités d'accompagnement</span>
-                <h2 style="color:#4a4a52;">Formats disponibles</h2>
+                <h2>Formats disponibles</h2>
                 <p class="lead">Choisissez le format qui correspond le mieux à vos besoins, votre rythme et votre contexte.</p>
             </div>
             <div class="formats-grid">

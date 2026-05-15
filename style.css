@@ -671,11 +671,28 @@ p { margin-bottom: 1rem; color: var(--text-light); }
 
 /* ============ TÉMOIGNAGES ============ */
 .temoignages {
-    background: #b8b8be;
+    background: var(--cream-dark);
 }
+
+/* ============ MUSIQUE — fond foncé identique à Événements ============ */
 #musique {
-    background: #a0a0a8;
+    background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-dark) 100%);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
 }
+#musique::before {
+    content: "";
+    position: absolute;
+    bottom: -40%; left: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201, 169, 97, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+#musique .container { position: relative; z-index: 2; }
+#musique h2 { color: var(--white); }
+#musique .lead { color: rgba(255, 255, 255, 0.85); }
+#musique .eyebrow-dark { color: var(--gold); }
 
 .reviews {
     display: grid;
