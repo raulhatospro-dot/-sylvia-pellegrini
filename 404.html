@@ -3,7 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="3;url=https://sylviapellegrini.com">
+    <script>
+        (function() {
+            var path = window.location.pathname;
+            var target = '/';
+            if (path.endsWith('.html')) {
+                var clean = path.slice(0, -5);
+                if (clean.endsWith('/index')) clean = clean.slice(0, -5) || '/';
+                target = clean + window.location.search + window.location.hash;
+            }
+            window.location.replace(target);
+        })();
+    </script>
+    <meta http-equiv="refresh" content="1;url=https://sylviapellegrini.com">
     <title>Page déplacée | Sylvia Pellegrini</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +48,7 @@
         <div class="container hero-content" style="max-width:600px;">
             <span class="eyebrow" style="color:var(--gold);">Page introuvable</span>
             <h1 style="color:var(--white); font-size:clamp(2rem, 4vw, 3rem); margin-bottom:1rem;">Cette page a été déplacée</h1>
-            <p class="hero-subtitle" style="color:var(--cream); font-style:italic; margin-bottom:2rem;">Vous allez être redirigé vers l'accueil dans quelques secondes...</p>
+            <p class="hero-subtitle" style="color:var(--cream); font-style:italic; margin-bottom:2rem;">Redirection en cours...</p>
             <a href="https://sylviapellegrini.com" class="btn btn-gold">Aller à l'accueil maintenant</a>
         </div>
     </section>
