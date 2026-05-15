@@ -1127,9 +1127,31 @@ article.review.review-hidden.review-show {
     margin: 0;
     line-height: 1.4;
 }
-@media (max-width: 700px) {
+@media (max-width: 768px) {
+    /* Hero cards : 1 colonne centrée horizontalement */
     .hero-cards {
         grid-template-columns: 1fr;
         max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    /* Navbar mobile : toujours fond crème, jamais transparente */
+    .site-header,
+    .site-header.scrolled {
+        background: var(--cream);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        padding: 14px 0;
+    }
+    .site-header .logo,
+    .site-header.scrolled .logo {
+        color: var(--blue-deep);
+    }
+    .site-header .burger span,
+    .site-header.scrolled .burger span {
+        background: var(--blue-deep);
     }
 }
